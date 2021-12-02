@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+# Switch to active directory
+cd /autograder/source
+
+# Run python script to process student submission
+python3 process_submission.py
+
+# Create a folder to hold classes
+mkdir -p classes
+
+# Compile all the java files in /src (Testing Code + Smaple Solution Code + Processed student code)
+java_files=$(find src -name "*.java")
+javac -cp lib/junit-4.12.jar:lib/hamcrest-core-1.3.jar:. -d classes $java_files
+
+# Run the testing script and store its output in results.json
+bash ./run.sh > /autograder/results/results.json
